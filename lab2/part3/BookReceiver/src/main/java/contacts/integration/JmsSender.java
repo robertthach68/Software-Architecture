@@ -12,13 +12,13 @@ public class JmsSender {
     @Autowired
     JmsTemplate jmsTemplate;
 
-    public void sendMessage(Contact contact)  {
+    public void sendMessage(Contact contact) {
         try {
-            //convert person to JSON string
+            // convert person to JSON string
             ObjectMapper objectMapper = new ObjectMapper();
             String contactString = objectMapper.writeValueAsString(contact);
             System.out.println("Sending a JMS message:" + contactString);
-            jmsTemplate.convertAndSend("testQueue", contactString);
+            jmsTemplate.convertAndSend("bookQueue", contactString);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

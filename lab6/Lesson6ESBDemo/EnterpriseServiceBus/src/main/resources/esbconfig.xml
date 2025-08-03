@@ -7,6 +7,8 @@
 
 	<channel id="wharehousechannel" />
 	<channel id="shippingchannel" />
+	<channel id="internationalShippingChannel" />
+	<channel id="domesticOrderChannel" />
 	<channel id="nextDayShippingChannel" />
 	<channel id="normalShippingChannel" />
 
@@ -15,12 +17,13 @@
 		ref="warehouseservice"
 		method="checkStock" />
 
-	<router input-channel="shippingchannel" ref="shippingRouter" method="routeOrder" />
+	<router input-channel="shippingchannel" ref="orderTypeRouter" method="routeByOrderType" />
 
 	<beans:bean id="warehouseservice" class="esb.WarehouseActivator" />
-	<beans:bean id="shippingRouter" class="esb.ShippingRouter" />
+	<beans:bean id="orderTypeRouter" class="esb.OrderTypeRouter" />
+	<beans:bean id="domesticOrderRouter" class="esb.DomesticOrderRouter" />
+	<beans:bean id="internationalShippingActivator" class="esb.InternationalShippingActivator" />
 	<beans:bean id="nextDayShippingActivator" class="esb.NextDayShippingActivator" />
 	<beans:bean id="normalShippingActivator" class="esb.NormalShippingActivator" />
-
 
 </beans:beans>

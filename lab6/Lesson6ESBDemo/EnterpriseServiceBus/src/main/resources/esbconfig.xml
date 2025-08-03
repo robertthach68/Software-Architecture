@@ -2,25 +2,25 @@
 <beans:beans xmlns="http://www.springframework.org/schema/integration"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-			http://www.springframework.org/schema/beans/spring-beans.xsd
-			http://www.springframework.org/schema/integration
-			http://www.springframework.org/schema/integration/spring-integration.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
 
-	<channel id="wharehousechannel"/>
-	<channel id="shippingchannel"/>
+	<channel id="wharehousechannel" />
+	<channel id="shippingchannel" />
+	<channel id="nextDayShippingChannel" />
+	<channel id="normalShippingChannel" />
 
 	<service-activator input-channel="wharehousechannel"
-	                   output-channel="shippingchannel"
-	                   ref="warehouseservice"
-	                   method="checkStock"/>
-	                   
-	<service-activator input-channel="shippingchannel"
-	                   ref="shippingservice"
-	                   method="ship"/>
-	                   
-	<beans:bean id="warehouseservice" class="esb.WarehouseActivator"/>
-	<beans:bean id="shippingservice" class="esb.ShippingActivator"/>
+		output-channel="shippingchannel"
+		ref="warehouseservice"
+		method="checkStock" />
 
-	
+	<router input-channel="shippingchannel" ref="shippingRouter" method="routeOrder" />
+
+	<beans:bean id="warehouseservice" class="esb.WarehouseActivator" />
+	<beans:bean id="shippingRouter" class="esb.ShippingRouter" />
+	<beans:bean id="nextDayShippingActivator" class="esb.NextDayShippingActivator" />
+	<beans:bean id="normalShippingActivator" class="esb.NormalShippingActivator" />
+
+
 </beans:beans>

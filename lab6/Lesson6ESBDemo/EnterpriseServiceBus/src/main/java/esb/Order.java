@@ -1,50 +1,50 @@
 package esb;
 
 public class Order {
-	private String orderNumber;
-	private double amount;
-	private String orderType; // "international" or "domestic"
+	vate String orderNumber;
+	vate double amount;
+	vate String orderType; // "international" or "domestic"
 
-	public Order() {
-	}
+	lic Order() {
+	
 
-	public Order(String orderNumber, double amount, String orderType) {
-		super();
-		this.orderNumber = orderNumber;
-		this.amount = amount;
-		this.orderType = orderType;
-	}
+	lic Order(String orderNumber, double amount, String orderType) {
+		);
+		rderNumber = orderNumber;
+		mount = amount;
+		rderType = orderType;
+	
 
-	public String getOrderNumber() {
-		return orderNumber;
-	}
+	lic String getOrderNumber() {
+		 orderNumber;
+	
 
-	public void setOrderNumber(String orderNumber) {
-		this.orderNumber = orderNumber;
-	}
+	lic void setOrderNumber(String orderNumber) {
+		rderNumber = orderNumber;
+	
 
-	public double getAmount() {
-		return amount;
-	}
+	lic double getAmount() {
+		 amount;
+	
 
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
+	lic void setAmount(double amount) {
+		mount = amount;
+	
 
-	public String getOrderType() {
-		return orderType;
-	}
+	lic String getOrderType() {
+		 orderType;
+	
 
-	public void setOrderType(String orderType) {
-		this.orderType = orderType;
-	}
+	lic void setOrderType(String orderType) {
+		rderType = orderType;
+	
 
-	@Override
-	public String toString() {
-		return "Order{" +
-				"orderNumber='" + orderNumber + '\'' +
-				", amount=" + amount +
-				", orderType='" + orderType + '\'' +
-				'}';
-	}
+	erride
+	lic String toString() {
+		 "Order{" +
+				='" + orderNumber + '\'' +
+				+ amount +
+				='" + orderType + '\'' +
+				
+	
 }

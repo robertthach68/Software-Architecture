@@ -1,50 +1,50 @@
 package esb;
 
 public class Order {
-       private String orderNumber;
-       private double amount;
-       private String orderType; // "international" or "domestic"
+          private String orderNumb
+          private double amou
+          private String orderType; // "international" or "domest
 
-       public Order() {
-       }
+          public Order(
+        
 
-       public Order(String orderNumber, double amount, String orderType) {
-              super();
-              this.orderNumber = orderNumber;
-              this.amount = amount;
-              this.orderType = orderType;
-       }
+          public Order(String orderNumber, double amount, String orderType
+                    su
+                    this.orderNumber = orderN
+                    this.amount = a
+                    this.orderType = orde
+        
 
-       public String getOrderNumber() {
-              return orderNumber;
-       }
+          public String getOrderNumber(
+                    return orderN
+        
 
-       public void setOrderNumber(String orderNumber) {
-              this.orderNumber = orderNumber;
-       }
+          public void setOrderNumber(String orderNumber
+                    this.orderNumber = orderN
+        
 
-       public double getAmount() {
-              return amount;
-       }
+          public double getAmount(
+                    return a
+        
 
-       public void setAmount(double amount) {
-              this.amount = amount;
-       }
+          public void setAmount(double amount
+                    this.amount = a
+        
 
-       public String getOrderType() {
-              return orderType;
-       }
+          public String getOrderType(
+                    return orde
+        
 
-       public void setOrderType(String orderType) {
-              this.orderType = orderType;
-       }
+          public void setOrderType(String orderType
+                    this.orderType = orde
+        
 
-       @Override
-       public String toString() {
-              return "Order{" +
-                            "orderNumber='" + orderNumber + '\'' +
-                            ", amount=" + amount +
-                            ", orderType='" + orderType + '\'' +
-                            '}';
-       }
+          @Overr
+          public String toString(
+                    return "Ord
+                                        "orderNumber='" + orderNum
+                                        ", amount=
+                                        ", orderType='" + orderT
+                                
+          }
 } 

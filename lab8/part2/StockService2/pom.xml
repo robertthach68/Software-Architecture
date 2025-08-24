@@ -10,10 +10,10 @@
         <relativePath />
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>stockservice</artifactId>
+    <artifactId>stockservice2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>StockService</name>
-    <description>Stock Service for Lab 8</description>
+    <name>StockService2</name>
+    <description>Stock Service 2 for Lab 8 Part 2</description>
     <properties>
         <java.version>11</java.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>
@@ -26,6 +26,10 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

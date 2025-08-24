@@ -10,10 +10,10 @@
         <relativePath />
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>eurekaserver1</artifactId>
+    <artifactId>eurekaserver</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>EurekaServer1</name>
-    <description>Eureka Server 1 for Lab 8</description>
+    <name>EurekaServer</name>
+    <description>Eureka Server for Lab 8 Part 2</description>
     <properties>
         <java.version>11</java.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>

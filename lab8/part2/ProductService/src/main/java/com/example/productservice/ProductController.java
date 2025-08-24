@@ -28,7 +28,7 @@ public class ProductController {
     public String getProductInfo() {
         return "ProductService - Port: 8901, Service: Product Management";
     }
-    
+
     @GetMapping("/product/stock-value")
     public String getStockValue() {
         try {
@@ -39,7 +39,7 @@ public class ProductController {
             return "Error calling StockService: " + e.getMessage();
         }
     }
-    
+
     @GetMapping("/product/stock-instance")
     public String getStockInstance() {
         try {

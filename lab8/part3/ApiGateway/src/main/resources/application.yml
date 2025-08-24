@@ -1,0 +1,54 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ApiGateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        # Route for StockService
+        - id: stock-service-route
+          uri: lb://StockService
+          predicates:
+            - Path=/api/stock/**
+          filters:
+            - StripPrefix=1
+        
+        # Route for ProductService
+        - id: product-service-route
+          uri: lb://ProductService
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - StripPrefix=1
+        
+        # Route for direct service calls (for testing)
+        - id: stock-service-direct
+          uri: lb://StockService
+          predicates:
+            - Path=/stock/**
+        
+        - id: product-service-direct
+          uri: lb://ProductService
+          predicates:
+            - Path=/product/**
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+# Gateway configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

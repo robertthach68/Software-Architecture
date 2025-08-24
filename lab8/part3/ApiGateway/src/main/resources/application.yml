@@ -18,7 +18,7 @@ spring:
             - Path=/api/stock/**
           filters:
             - StripPrefix=1
-        
+
         # Route for ProductService
         - id: product-service-route
           uri: lb://ProductService
@@ -26,13 +26,13 @@ spring:
             - Path=/api/product/**
           filters:
             - StripPrefix=1
-        
+
         # Route for direct service calls (for testing)
         - id: stock-service-direct
           uri: lb://StockService
           predicates:
             - Path=/stock/**
-        
+
         - id: product-service-direct
           uri: lb://ProductService
           predicates:

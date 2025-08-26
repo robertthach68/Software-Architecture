@@ -13,7 +13,7 @@
     <artifactId>stockservice2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>StockService2</name>
-    <description>Stock Service 2 for Lab 8 Part 2</description>
+    <description>Stock Service 2 for Lab 9 Part 1 with Zipkin and Sleuth</description>
     <properties>
         <java.version>11</java.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>
@@ -31,16 +31,17 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
         </dependency>
-        <!-- Zipkin and Sleuth dependencies -->
+        
+        <!-- Zipkin and Sleuth for distributed tracing -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-sleuth</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud
-            </artifactId>
+            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-sleuth-zipkin</artifactId>
         </dependency>
+        
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

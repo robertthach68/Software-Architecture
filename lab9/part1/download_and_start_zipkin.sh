@@ -55,3 +55,4 @@ echo "Press Ctrl+C to stop Zipkin"
 echo ""
 
 java -jar zipkin.jar
+

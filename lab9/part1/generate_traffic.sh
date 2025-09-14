@@ -91,3 +91,4 @@ echo "- Service-to-service communication"
 echo "- Request flow across the microservice architecture"
 echo "- Performance metrics and timing"
 echo "- Service dependencies and topology"
+

@@ -118,3 +118,4 @@ lab10/part2/
 - **Shared configuration**: application.yml for common settings
 - **@RefreshScope**: Enables configuration refresh without restart
 - **Spring Cloud Config Client**: Automatic configuration loading
+

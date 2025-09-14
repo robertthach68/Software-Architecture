@@ -10,3 +10,4 @@ public class ServiceBApplication {
         SpringApplication.run(ServiceBApplication.class, args);
     }
 }
+

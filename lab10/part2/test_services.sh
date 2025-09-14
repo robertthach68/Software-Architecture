@@ -29,3 +29,4 @@ test_endpoint "http://localhost:8082/" "ServiceB - Main endpoint"
 
 echo "=================================="
 echo "Testing completed!"
+

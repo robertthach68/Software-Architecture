@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking Microservices Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button.danger {
+            background-color: #dc3545;
+        }
+        button.danger:hover {
+            background-color: #c82333;
+        }
+        .result {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .success {
+            color: #28a745;
+        }
+        .error {
+            color: #dc3545;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏦 Banking Microservices Test Interface</h1>
+    
+    <div class="container">
+        <h2>1. Create Accounts</h2>
+        <button onclick="createCheckingAccount()">Create Checking Account ($1000)</button>
+        <button onclick="createSavingAccount()">Create Saving Account ($500)</button>
+        <div id="createResult" class="result"></div>
+    </div>
+    
+    <div class="container">
+        <h2>2. Check Balances</h2>
+        <button onclick="checkBalances()">Check All Balances</button>
+        <div id="balanceResult" class="result"></div>
+    </div>
+    
+    <div class="container">
+        <h2>3. Transfer Money</h2>
+        <div>
+            <label>Amount: $</label>
+            <input type="number" id="transferAmount" value="200" step="0.01" min="0">
+        </div>
+        <button onclick="performTransfer()">Transfer: Checking → Saving</button>
+        <button onclick="performReverseTransfer()">Transfer: Saving → Checking</button>
+        <div id="transferResult" class="result"></div>
+    </div>
+    
+    <div class="container">
+        <h2>4. Test Error Scenarios</h2>
+        <div>
+            <label>Amount: $</label>
+            <input type="number" id="errorAmount" value="100" step="0.01" min="0">
+        </div>
+        <button class="danger" onclick="testErrorScenario()">Test Error with Rollback</button>
+        <div id="errorResult" class="result"></div>
+    </div>
+    
+    <div class="container">
+        <h2>5. Run Complete Test Suite</h2>
+        <button onclick="runCompleteTest()">Run All Tests</button>
+        <div id="testResult" class="result"></div>
+    </div>
+
+    <script>
+        const CHECKING_SERVICE = 'http://localhost:8082';
+        const SAVING_SERVICE = 'http://localhost:8081';
+        const TRANSFER_SERVICE = 'http://localhost:8083';
+        
+        async function makeRequest(url, method = 'GET', body = null) {
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                };
+                
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
+                
+                const response = await fetch(url, options);
+                const data = await response.text();
+                
+                return {
+                    status: response.status,
+                    data: data,
+                    success: response.ok
+                };
+            } catch (error) {
+                return {
+                    status: 0,
+                    data: 'Error: ' + error.message,
+                    success: false
+                };
+            }
+        }
+        
+        async function createCheckingAccount() {
+            const result = await makeRequest(`${CHECKING_SERVICE}/api/checking-accounts`, 'POST', {
+                accountNumber: 'CHK001',
+                customerId: 'CUST001',
+                initialBalance: 1000.00
+            });
+            
+            document.getElementById('createResult').innerHTML = 
+                `Checking Account Creation:\nStatus: ${result.status}\nResponse: ${result.data}`;
+        }
+        
+        async function createSavingAccount() {
+            const result = await makeRequest(`${SAVING_SERVICE}/api/saving-accounts`, 'POST', {
+                accountNumber: 'SAV001',
+                customerId: 'CUST001',
+                initialBalance: 500.00
+            });
+            
+            document.getElementById('createResult').innerHTML += 
+                `\n\nSaving Account Creation:\nStatus: ${result.status}\nResponse: ${result.data}`;
+        }
+        
+        async function checkBalances() {
+            const checkingResult = await makeRequest(`${CHECKING_SERVICE}/api/checking-accounts/CHK001`);
+            const savingResult = await makeRequest(`${SAVING_SERVICE}/api/saving-accounts/SAV001`);
+            
+            document.getElementById('balanceResult').innerHTML = 
+                `Checking Account (CHK001):\nStatus: ${checkingResult.status}\nResponse: ${checkingResult.data}\n\n` +
+                `Saving Account (SAV001):\nStatus: ${savingResult.status}\nResponse: ${savingResult.data}`;
+        }
+        
+        async function performTransfer() {
+            const amount = parseFloat(document.getElementById('transferAmount').value);
+            const result = await makeRequest(`${TRANSFER_SERVICE}/api/transfers/checking-to-saving`, 'POST', {
+                fromAccountNumber: 'CHK001',
+                toAccountNumber: 'SAV001',
+                amount: amount,
+                simulateError: false
+            });
+            
+            document.getElementById('transferResult').innerHTML = 
+                `Transfer Result:\nStatus: ${result.status}\nResponse: ${result.data}`;
+        }
+        
+        async function performReverseTransfer() {
+            const amount = parseFloat(document.getElementById('transferAmount').value);
+            const result = await makeRequest(`${TRANSFER_SERVICE}/api/transfers/saving-to-checking`, 'POST', {
+                fromAccountNumber: 'SAV001',
+                toAccountNumber: 'CHK001',
+                amount: amount,
+                simulateError: false
+            });
+            
+            document.getElementById('transferResult').innerHTML = 
+                `Reverse Transfer Result:\nStatus: ${result.status}\nResponse: ${result.data}`;
+        }
+        
+        async function testErrorScenario() {
+            const amount = parseFloat(document.getElementById('errorAmount').value);
+            const result = await makeRequest(`${TRANSFER_SERVICE}/api/transfers/test-error`, 'POST', {
+                fromAccountNumber: 'CHK001',
+                toAccountNumber: 'SAV001',
+                amount: amount,
+                simulateError: true
+            });
+            
+            document.getElementById('errorResult').innerHTML = 
+                `Error Test Result:\nStatus: ${result.status}\nResponse: ${result.data}`;
+        }
+        
+        async function runCompleteTest() {
+            let log = '=== Complete Test Suite ===\n\n';
+            
+            // Step 1: Create accounts
+            log += '1. Creating accounts...\n';
+            const checkingCreate = await makeRequest(`${CHECKING_SERVICE}/api/checking-accounts`, 'POST', {
+                accountNumber: 'CHK001',
+                customerId: 'CUST001',
+                initialBalance: 1000.00
+            });
+            log += `Checking account: ${checkingCreate.status} - ${checkingCreate.data}\n`;
+            
+            const savingCreate = await makeRequest(`${SAVING_SERVICE}/api/saving-accounts`, 'POST', {
+                accountNumber: 'SAV001',
+                customerId: 'CUST001',
+                initialBalance: 500.00
+            });
+            log += `Saving account: ${savingCreate.status} - ${savingCreate.data}\n\n`;
+            
+            // Step 2: Check initial balances
+            log += '2. Initial balances...\n';
+            const checkingBalance = await makeRequest(`${CHECKING_SERVICE}/api/checking-accounts/CHK001`);
+            const savingBalance = await makeRequest(`${SAVING_SERVICE}/api/saving-accounts/SAV001`);
+            log += `Checking: ${checkingBalance.data}\n`;
+            log += `Saving: ${savingBalance.data}\n\n`;
+            
+            // Step 3: Successful transfer
+            log += '3. Successful transfer ($200)...\n';
+            const transfer = await makeRequest(`${TRANSFER_SERVICE}/api/transfers/checking-to-saving`, 'POST', {
+                fromAccountNumber: 'CHK001',
+                toAccountNumber: 'SAV001',
+                amount: 200.00,
+                simulateError: false
+            });
+            log += `Transfer result: ${transfer.data}\n\n`;
+            
+            // Step 4: Check balances after transfer
+            log += '4. Balances after transfer...\n';
+            const checkingAfter = await makeRequest(`${CHECKING_SERVICE}/api/checking-accounts/CHK001`);
+            const savingAfter = await makeRequest(`${SAVING_SERVICE}/api/saving-accounts/SAV001`);
+            log += `Checking: ${checkingAfter.data}\n`;
+            log += `Saving: ${savingAfter.data}\n\n`;
+            
+            // Step 5: Error test
+            log += '5. Testing error scenario ($100)...\n';
+            const errorTest = await makeRequest(`${TRANSFER_SERVICE}/api/transfers/test-error`, 'POST', {
+                fromAccountNumber: 'CHK001',
+                toAccountNumber: 'SAV001',
+                amount: 100.00,
+                simulateError: true
+            });
+            log += `Error test result: ${errorTest.data}\n\n`;
+            
+            // Step 6: Final balances
+            log += '6. Final balances (should be same as step 4 due to rollback)...\n';
+            const checkingFinal = await makeRequest(`${CHECKING_SERVICE}/api/checking-accounts/CHK001`);
+            const savingFinal = await makeRequest(`${SAVING_SERVICE}/api/saving-accounts/SAV001`);
+            log += `Checking: ${checkingFinal.data}\n`;
+            log += `Saving: ${savingFinal.data}\n\n`;
+            
+            log += '=== Test Complete ===';
+            
+            document.getElementById('testResult').innerHTML = log;
+        }
+    </script>
+</body>
+</html>

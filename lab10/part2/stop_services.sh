@@ -27,3 +27,4 @@ stop_service "ServiceAApplication"
 stop_service "ServiceBApplication"
 
 echo "All services stopped!"
+

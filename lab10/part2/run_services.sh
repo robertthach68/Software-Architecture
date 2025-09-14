@@ -38,3 +38,4 @@ echo "  http://localhost:8888/ServiceA/default"
 echo "  http://localhost:8888/ServiceB/default"
 echo ""
 echo "To stop services, run: ./stop_services.sh"
+

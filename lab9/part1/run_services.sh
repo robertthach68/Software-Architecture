@@ -125,3 +125,4 @@ echo "Zipkin Setup:"
 echo "1. Run: ./download_and_start_zipkin.sh"
 echo "2. Zipkin will be available at: http://localhost:9411/zipkin"
 echo "3. Generate traffic to see traces"
+

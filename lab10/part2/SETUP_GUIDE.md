@@ -144,3 +144,4 @@ ServiceA (Port 8081)          ServiceB (Port 8082)
 - **Shared Configuration**: Common configuration across services
 - **Dynamic Configuration**: Changes in GitHub are picked up on service restart
 - **Spring Cloud Config**: Automatic configuration loading and management
+
